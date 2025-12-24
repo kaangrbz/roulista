@@ -14,91 +14,129 @@
             color: #e5e5e5;
         }
         .project-card {
-            border: 1px solid #262626;
-            transition: border-color 0.2s ease;
+            border-left: 1px solid #262626;
+            transition: all 0.3s ease;
         }
         .project-card:hover {
-            border-color: #525252;
+            border-left-color: #f5f5f5;
+            background-color: #111;
+        }
+        .timeline-dot {
+            width: 8px;
+            height: 8px;
+            background: #404040;
+            border-radius: 50%;
+            position: absolute;
+            left: -4.5px;
+            top: 32px;
+        }
+        .project-card:hover .timeline-dot {
+            background: #f5f5f5;
+            box-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
 
-    <!-- Basit Navigasyon -->
+    <!-- Navigasyon -->
     <nav class="max-w-4xl mx-auto px-6 py-12 flex justify-between items-center">
         <a href="#" class="text-lg font-medium tracking-tight hover:opacity-70 transition">Roulista</a>
         <div class="flex gap-8 text-sm font-light text-neutral-400">
             <a href="#projects" class="hover:text-white transition">Projeler</a>
-            <a href="#npm" class="hover:text-white transition">NPM</a>
+            <a href="#npm" class="hover:text-white transition">Kitaplıklar</a>
             <a href="mailto:contact@roulista.com" class="hover:text-white transition">İletişim</a>
         </div>
     </nav>
 
     <!-- Giriş -->
-    <header class="max-w-4xl mx-auto px-6 py-20">
-        <h1 class="text-4xl font-normal leading-tight max-w-2xl mb-6">
-            Yazılım geliştirici. <br>
-            <span class="text-neutral-500">Optimizasyon araçları, kod editörleri ve açık kaynak paketler inşa ediyorum.</span>
+    <header class="max-w-4xl mx-auto px-6 py-16">
+        <h1 class="text-4xl font-normal leading-tight max-w-2xl mb-4">
+            Yazılım geliştirici.
         </h1>
+        <p class="text-neutral-500 text-lg font-light leading-relaxed max-w-xl">
+            Sistem mimarisi, optimizasyon algoritmaları ve geliştirici araçları üzerine odaklanıyorum.
+        </p>
     </header>
 
-    <!-- Projeler -->
-    <main id="projects" class="max-w-4xl mx-auto px-6 space-y-24 pb-32">
+    <!-- Projeler & Zaman Tüneli -->
+    <main id="projects" class="max-w-4xl mx-auto px-6 pb-32">
         
-        <!-- Uygulamalar Bölümü -->
-        <section>
-            <h2 class="text-xs uppercase tracking-[0.2em] text-neutral-500 mb-8">Uygulamalar</h2>
-            <div class="grid gap-6">
-                <!-- Cut-Opt -->
-                <a href="https://cut-opt.roulista.com/" target="_blank" class="project-card p-8 rounded-lg group block">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-xl font-medium">Cut-Opt</h3>
-                        <i class="fas fa-arrow-right text-neutral-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+        <div class="space-y-4">
+            <h2 class="text-xs uppercase tracking-[0.2em] text-neutral-600 mb-10">Kronolojik Çalışmalar</h2>
+            
+            <!-- Cut-Opt -->
+            <div class="relative pl-8 project-card group">
+                <div class="timeline-dot"></div>
+                <div class="py-8 pr-4">
+                    <div class="flex flex-wrap items-baseline gap-x-4 mb-2">
+                        <span class="text-xs font-mono text-neutral-600">2025 — GÜNCEL</span>
+                        <h3 class="text-xl font-medium text-neutral-200">Cut-Opt</h3>
                     </div>
-                    <p class="text-neutral-400 font-light leading-relaxed">
-                        Malzeme israfını azaltan gelişmiş kesim optimizasyonu algoritması ve kullanıcı arayüzü.
+                    <p class="text-neutral-500 font-light leading-relaxed mb-4 max-w-2xl">
+                        Endüstriyel malzemeler için israfı minimize eden yüksek performanslı kesim optimizasyonu algoritması ve web tabanlı yönetim arayüzü.
                     </p>
-                </a>
+                    <a href="https://cut-opt.roulista.com/" target="_blank" class="text-xs text-neutral-400 hover:text-white inline-flex items-center gap-2 transition">
+                        Sistemi Görüntüle <i class="fas fa-external-link-alt opacity-50"></i>
+                    </a>
+                </div>
+            </div>
 
-                <!-- ByteSync Editor -->
-                <a href="https://bytesynceditor.roulista.com/" target="_blank" class="project-card p-8 rounded-lg group block">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-xl font-medium">ByteSync Editor</h3>
-                        <i class="fas fa-arrow-right text-neutral-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+            <!-- ByteSync Editor -->
+            <div class="relative pl-8 project-card group">
+                <div class="timeline-dot"></div>
+                <div class="py-8 pr-4">
+                    <div class="flex flex-wrap items-baseline gap-x-4 mb-2">
+                        <span class="text-xs font-mono text-neutral-600">2025 — GÜNCEL</span>
+                        <h3 class="text-xl font-medium text-neutral-200">ByteSync Editor</h3>
                     </div>
-                    <p class="text-neutral-400 font-light leading-relaxed">
-                        Gerçek zamanlı işbirliği sunan, yüksek performanslı web tabanlı kod editörü.
+                    <p class="text-neutral-500 font-light leading-relaxed mb-4 max-w-2xl">
+                        ASCII, Hex, Ondalık ve İkilik formatlar için gerçek zamanlı senkronizasyon sunan, düşük gecikmeli byte tabanlı veri editörü.
                     </p>
-                </a>
+                    <a href="https://bytesynceditor.roulista.com/" target="_blank" class="text-xs text-neutral-400 hover:text-white inline-flex items-center gap-2 transition">
+                        Editörü Başlat <i class="fas fa-external-link-alt opacity-50"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- NPM Kitaplıkları -->
+        <section id="npm" class="mt-32">
+            <h2 class="text-xs uppercase tracking-[0.2em] text-neutral-600 mb-10">Açık Kaynak Kitaplıklar</h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                
+                <!-- listener-manager-pro -->
+                <div class="border border-neutral-900 p-6 rounded hover:border-neutral-700 transition">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-sm font-mono text-neutral-300">listener-manager-pro</h3>
+                        <span class="text-[10px] bg-neutral-900 text-neutral-500 px-2 py-0.5 rounded">v1.2+</span>
+                    </div>
+                    <p class="text-xs text-neutral-500 font-light leading-relaxed mb-6">
+                        Büyük ölçekli JS uygulamalarında event listener'ların yaşam döngüsünü yöneten bellek dostu bir araç.
+                    </p>
+                    <a href="https://www.npmjs.com/package/listener-manager-pro" target="_blank" class="text-[10px] uppercase tracking-wider text-neutral-400 hover:text-white transition">NPM Kaydı</a>
+                </div>
+
+                <!-- async-modal -->
+                <div class="border border-neutral-900 p-6 rounded hover:border-neutral-700 transition">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-sm font-mono text-neutral-300">async-modal</h3>
+                        <span class="text-[10px] bg-neutral-900 text-neutral-500 px-2 py-0.5 rounded">v2.0+</span>
+                    </div>
+                    <p class="text-xs text-neutral-500 font-light leading-relaxed mb-6">
+                        UI modal akışlarını Promise yapısı ile basitleştiren, tamamen asenkron çalışma prensibine sahip paket.
+                    </p>
+                    <a href="https://www.npmjs.com/package/async-modal" target="_blank" class="text-[10px] uppercase tracking-wider text-neutral-400 hover:text-white transition">NPM Kaydı</a>
+                </div>
+
             </div>
         </section>
 
-        <!-- NPM Bölümü -->
-        <section id="npm">
-            <h2 class="text-xs uppercase tracking-[0.2em] text-neutral-500 mb-8">NPM Paketleri</h2>
-            <div class="grid md:grid-cols-2 gap-6">
-                <!-- Paket 1 -->
-                <div class="project-card p-6 rounded-lg">
-                    <h3 class="text-sm font-mono text-neutral-200 mb-2">listener-manager-pro</h3>
-                    <p class="text-sm text-neutral-500 font-light mb-4">Event listener yönetimi ve bellek sızıntısı önleme kütüphanesi.</p>
-                    <a href="https://www.npmjs.com/package/listener-manager-pro" target="_blank" class="text-xs text-neutral-400 hover:text-white underline underline-offset-4">Paketi Görüntüle</a>
-                </div>
-
-                <!-- Paket 2 -->
-                <div class="project-card p-6 rounded-lg">
-                    <h3 class="text-sm font-mono text-neutral-200 mb-2">async-modal</h3>
-                    <p class="text-sm text-neutral-500 font-light mb-4">Promise tabanlı, asenkron modal yönetim sistemi.</p>
-                    <a href="https://www.npmjs.com/package/async-modal" target="_blank" class="text-xs text-neutral-400 hover:text-white underline underline-offset-4">Paketi Görüntüle</a>
-                </div>
+        <!-- Alt Bilgi -->
+        <footer class="mt-40 pt-12 border-t border-neutral-900 flex flex-col md:flex-row justify-between items-center gap-6 text-neutral-600">
+            <div class="text-xs font-light">
+                Built with precision &mdash; 2025
             </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="pt-20 border-t border-neutral-900 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 text-neutral-500">
-            <div class="text-sm font-light">
-                &copy; 2025 — İstanbul
-            </div>
-            <div class="flex gap-6 text-sm">
+            <div class="flex gap-8 text-xs">
                 <a href="#" class="hover:text-white transition">GitHub</a>
                 <a href="#" class="hover:text-white transition">LinkedIn</a>
                 <a href="mailto:contact@roulista.com" class="hover:text-white transition">Email</a>
