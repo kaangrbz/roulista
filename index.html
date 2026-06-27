@@ -3,142 +3,699 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulista | Minimal Portfolyo</title>
+    <title>Roulista | Yazılım Geliştirici</title>
+    <meta name="description" content="Sistem mimarisi, optimizasyon algoritmaları ve geliştirici araçları. Yolista, Kentsel Dönüşüm, Kiosk ve daha fazlası.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        :root {
+            --bg: #050505;
+            --surface: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #f4f4f5;
+            --muted: #71717a;
+        }
+
+        * { box-sizing: border-box; }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a;
-            color: #e5e5e5;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
         }
+
+        .mesh-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% -10%, rgba(99, 102, 241, 0.15), transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 10%, rgba(16, 185, 129, 0.08), transparent 45%),
+                radial-gradient(ellipse 50% 30% at 50% 100%, rgba(244, 63, 94, 0.06), transparent 40%);
+        }
+
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 64px 64px;
+            mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black, transparent);
+        }
+
+        .glass-nav {
+            background: rgba(5, 5, 5, 0.72);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
         .project-card {
-            border-left: 1px solid #262626;
-            transition: all 0.3s ease;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1.25rem;
+            overflow: hidden;
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease, box-shadow 0.35s ease;
         }
+
         .project-card:hover {
-            border-left-color: #f5f5f5;
-            background-color: #111;
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.16);
+            box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5);
         }
-        .timeline-dot {
-            width: 8px;
-            height: 8px;
-            background: #404040;
-            border-radius: 50%;
+
+        .project-card:has(details[open]) {
+            transform: none;
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.04);
+        }
+
+        .project-image {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16 / 10;
+            background: #111;
+        }
+
+        .project-image .absolute {
             position: absolute;
-            left: -4.5px;
-            top: 32px;
+            inset: 0;
         }
-        .project-card:hover .timeline-dot {
-            background: #f5f5f5;
-            box-shadow: 0 0 10px rgba(255,255,255,0.3);
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .project-image--logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0c4a6e 100%);
+        }
+
+        .project-image--logo img {
+            width: auto;
+            height: auto;
+            max-width: 55%;
+            max-height: 55%;
+            object-fit: contain;
+            transform: none !important;
+        }
+
+        .project-image--tool {
+            background: linear-gradient(145deg, #18181b 0%, #09090b 100%);
+        }
+
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.04em;
+            padding: 0.25rem 0.6rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.04);
+            color: #a1a1aa;
+        }
+
+        .lib-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+
+        .lib-card:hover {
+            border-color: rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .link-arrow {
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+
+        .project-card:hover .link-arrow,
+        .lib-card:hover .link-arrow {
+            transform: translateX(3px);
+            color: #fff;
+        }
+
+        .fade-up {
+            animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .delay-1 { animation-delay: 0.08s; }
+        .delay-2 { animation-delay: 0.16s; }
+        .delay-3 { animation-delay: 0.24s; }
+        .delay-4 { animation-delay: 0.32s; }
+        .delay-5 { animation-delay: 0.4s; }
+        .delay-6 { animation-delay: 0.48s; }
+
+        .detail-toggle {
+            border-top: 1px solid var(--border);
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+        }
+
+        .detail-toggle summary {
+            list-style: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8125rem;
+            color: #a1a1aa;
+            user-select: none;
+            transition: color 0.2s ease;
+        }
+
+        .detail-toggle summary::-webkit-details-marker { display: none; }
+
+        .detail-toggle summary:hover { color: #fff; }
+
+        .detail-toggle[open] summary { color: #e4e4e7; margin-bottom: 1.25rem; }
+
+        .detail-chevron {
+            font-size: 0.625rem;
+            transition: transform 0.25s ease;
+        }
+
+        .detail-toggle[open] .detail-chevron { transform: rotate(180deg); }
+
+        .detail-grid {
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        @media (min-width: 640px) {
+            .detail-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .detail-block h4 {
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #71717a;
+            margin-bottom: 0.625rem;
+        }
+
+        .detail-list {
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .detail-list li {
+            position: relative;
+            padding-left: 1rem;
+            font-size: 0.8125rem;
+            line-height: 1.55;
+            color: #a1a1aa;
+            font-weight: 300;
+        }
+
+        .detail-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #52525b;
+        }
+
+        .detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem 1.25rem;
+            padding: 0.875rem 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+            margin-bottom: 1.25rem;
+        }
+
+        .detail-meta dt {
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #52525b;
+            margin-bottom: 0.2rem;
+        }
+
+        .detail-meta dd {
+            font-size: 0.8125rem;
+            color: #d4d4d8;
         }
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
 
-    <!-- Navigasyon -->
-    <nav class="max-w-4xl mx-auto px-6 py-12 flex justify-between items-center">
-        <a href="#" class="text-lg font-medium tracking-tight hover:opacity-70 transition">Roulista</a>
-        <div class="flex gap-8 text-sm font-light text-neutral-400">
-            <a href="#projects" class="hover:text-white transition">Projeler</a>
-            <a href="#npm" class="hover:text-white transition">Kitaplıklar</a>
-            <a href="mailto:contact@roulista.com" class="hover:text-white transition">İletişim</a>
+    <div class="mesh-bg"></div>
+    <div class="grid-overlay"></div>
+
+    <nav class="glass-nav sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-base font-medium tracking-tight hover:opacity-70 transition">Roulista</a>
+            <div class="flex gap-6 sm:gap-8 text-sm text-zinc-400">
+                <a href="#projects" class="hover:text-white transition">Projeler</a>
+                <a href="#npm" class="hover:text-white transition">Kitaplıklar</a>
+                <a href="mailto:contact@roulista.com" class="hover:text-white transition">İletişim</a>
+            </div>
         </div>
     </nav>
 
-    <!-- Giriş -->
-    <header class="max-w-4xl mx-auto px-6 py-16">
-        <h1 class="text-4xl font-normal leading-tight max-w-2xl mb-4">
+    <header class="relative z-10 max-w-6xl mx-auto px-6 pt-20 pb-16 sm:pt-28 sm:pb-20">
+        <p class="fade-up text-xs uppercase tracking-[0.25em] text-zinc-500 mb-6">Portfolyo</p>
+        <h1 class="fade-up delay-1 text-4xl sm:text-5xl lg:text-6xl font-medium leading-[1.1] tracking-tight max-w-3xl mb-6">
             Yazılım geliştirici.
         </h1>
-        <p class="text-neutral-500 text-lg font-light leading-relaxed max-w-xl">
-            Sistem mimarisi, optimizasyon algoritmaları ve geliştirici araçları üzerine odaklanıyorum.
+        <p class="fade-up delay-2 text-zinc-400 text-lg sm:text-xl font-light leading-relaxed max-w-2xl">
+            Sistem mimarisi, optimizasyon algoritmaları ve geliştirici araçları üzerine odaklanıyorum. Mobil uygulamalardan endüstriyel araçlara uzanan projeler geliştiriyorum.
         </p>
     </header>
 
-    <!-- Projeler & Zaman Tüneli -->
-    <main id="projects" class="max-w-4xl mx-auto px-6 pb-32">
-        
-        <div class="space-y-4">
-            <h2 class="text-xs uppercase tracking-[0.2em] text-neutral-600 mb-10">Kronolojik Çalışmalar</h2>
-            
-            <!-- Cut-Opt -->
-            <div class="relative pl-8 project-card group">
-                <div class="timeline-dot"></div>
-                <div class="py-8 pr-4">
-                    <div class="flex flex-wrap items-baseline gap-x-4 mb-2">
-                        <span class="text-xs font-mono text-neutral-600">2025 — GÜNCEL</span>
-                        <h3 class="text-xl font-medium text-neutral-200">Cut-Opt</h3>
-                    </div>
-                    <p class="text-neutral-500 font-light leading-relaxed mb-4 max-w-2xl">
-                        Endüstriyel malzemeler için israfı minimize eden yüksek performanslı kesim optimizasyonu algoritması ve web tabanlı yönetim arayüzü.
-                    </p>
-                    <a href="https://cut-opt.roulista.com/" target="_blank" class="text-xs text-neutral-400 hover:text-white inline-flex items-center gap-2 transition">
-                        Sistemi Görüntüle <i class="fas fa-external-link-alt opacity-50"></i>
-                    </a>
+    <main class="relative z-10 max-w-6xl mx-auto px-6 pb-24">
+
+        <section id="projects">
+            <div class="flex items-end justify-between gap-4 mb-10">
+                <div>
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-2">Seçilmiş Çalışmalar</h2>
+                    <p class="text-zinc-600 text-sm">Üretimdeki projeler ve araçlar</p>
                 </div>
             </div>
 
-            <!-- ByteSync Editor -->
-            <div class="relative pl-8 project-card group">
-                <div class="timeline-dot"></div>
-                <div class="py-8 pr-4">
-                    <div class="flex flex-wrap items-baseline gap-x-4 mb-2">
-                        <span class="text-xs font-mono text-neutral-600">2025 — GÜNCEL</span>
-                        <h3 class="text-xl font-medium text-neutral-200">ByteSync Editor</h3>
-                    </div>
-                    <p class="text-neutral-500 font-light leading-relaxed mb-4 max-w-2xl">
-                        ASCII, Hex, Ondalık ve İkilik formatlar için gerçek zamanlı senkronizasyon sunan, düşük gecikmeli byte tabanlı veri editörü.
-                    </p>
-                    <a href="https://bseditor.roulista.com/" target="_blank" class="text-xs text-neutral-400 hover:text-white inline-flex items-center gap-2 transition">
-                        Editörü Başlat <i class="fas fa-external-link-alt opacity-50"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
-        <!-- NPM Kitaplıkları -->
-        <section id="npm" class="mt-32">
-            <h2 class="text-xs uppercase tracking-[0.2em] text-neutral-600 mb-10">Açık Kaynak Kitaplıklar</h2>
-            <div class="grid md:grid-cols-2 gap-4">
-                
-                <!-- listener-manager-pro -->
-                <div class="border border-neutral-900 p-6 rounded hover:border-neutral-700 transition">
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="text-sm font-mono text-neutral-300">listener-manager-pro</h3>
-                        <span class="text-[10px] bg-neutral-900 text-neutral-500 px-2 py-0.5 rounded">v1.0.2</span>
+                <!-- Yolista -->
+                <article class="project-card fade-up delay-1 sm:col-span-2 lg:col-span-2">
+                    <div class="project-image">
+                        <img src="assets/projects/yolista.png" alt="Yolista mobil uygulama ekran görüntüsü" loading="lazy">
                     </div>
-                    <p class="text-xs text-neutral-500 font-light leading-relaxed mb-6">
-                        Büyük ölçekli JS uygulamalarında event listener'ların yaşam döngüsünü yöneten bellek dostu bir araç.
-                    </p>
-                    <a href="https://www.npmjs.com/package/listener-manager-pro" target="_blank" class="text-[10px] uppercase tracking-wider text-neutral-400 hover:text-white transition">NPM Kaydı</a>
-                </div>
+                    <div class="p-6 sm:p-7">
+                        <div class="flex flex-wrap items-center gap-3 mb-3">
+                            <img src="assets/projects/yolista-logo.png" alt="Yolista" class="h-6 w-auto opacity-90">
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-medium mb-3">Yolista</h3>
+                        <p class="text-zinc-400 font-light leading-relaxed mb-5 max-w-2xl">
+                            Seyahat rotalarını fotoğraflarla paylaş, şehir içi, doğa ve tarihi rotaları keşfet. Çok duraklı rota paylaşımı, sosyal feed ve web köprüsü ile tam ekosistem.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="tag">React Native</span>
+                            <span class="tag">Supabase</span>
+                            <span class="tag">Next.js</span>
+                        </div>
+                        <a href="https://web.youlistaapp.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm text-zinc-300 hover:text-white transition group">
+                            web.youlistaapp.com
+                            <i class="fas fa-arrow-right link-arrow text-xs opacity-60"></i>
+                        </a>
 
-                <!-- async-modal -->
-                <div class="border border-neutral-900 p-6 rounded hover:border-neutral-700 transition">
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="text-sm font-mono text-neutral-300">async-modal</h3>
-                        <span class="text-[10px] bg-neutral-900 text-neutral-500 px-2 py-0.5 rounded">v1.0.2</span>
+                        <details class="detail-toggle">
+                            <summary>
+                                Proje detayları
+                                <i class="fas fa-chevron-down detail-chevron"></i>
+                            </summary>
+                            <dl class="detail-meta">
+                                <div>
+                                    <dt>Platform</dt>
+                                    <dd>iOS & Android + Web</dd>
+                                </div>
+                                <div>
+                                    <dt>Rol</dt>
+                                    <dd>Tam yığın geliştirme</dd>
+                                </div>
+                                <div>
+                                    <dt>Durum</dt>
+                                    <dd>Canlı — aktif geliştirme</dd>
+                                </div>
+                            </dl>
+                            <div class="detail-grid">
+                                <div class="detail-block">
+                                    <h4>Öne çıkan özellikler</h4>
+                                    <ul class="detail-list">
+                                        <li>Çok duraklı fotoğraf rotaları oluşturma ve paylaşma</li>
+                                        <li>Sosyal feed, keşfet, beğeni, yorum ve koleksiyonlar</li>
+                                        <li>Takip sistemi, bildirimler ve profil yönetimi</li>
+                                        <li>Web köprüsü ile rota paylaşım linkleri ve OG önizleme</li>
+                                        <li>Deep link & universal link (<code class="text-zinc-500">yolista://</code>)</li>
+                                        <li>Taslak kaydetme ve arka planda yayınlama</li>
+                                    </ul>
+                                </div>
+                                <div class="detail-block">
+                                    <h4>Teknik altyapı</h4>
+                                    <ul class="detail-list">
+                                        <li>React Native 0.78, React Navigation 7, TypeScript</li>
+                                        <li>Supabase Auth, Postgres, Storage ve Edge Functions</li>
+                                        <li>Next.js web katmanı — auth köprüsü ve paylaşım sayfaları</li>
+                                        <li>Zustand, Formik + Yup, görsel önbellekleme</li>
+                                        <li>Kategori, şehir ve arama filtreleri ile keşfet modülü</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </details>
                     </div>
-                    <p class="text-xs text-neutral-500 font-light leading-relaxed mb-6">
-                        UI modal akışlarını Promise yapısı ile basitleştiren, tamamen asenkron çalışma prensibine sahip paket.
-                    </p>
-                    <a href="https://www.npmjs.com/package/async-modal" target="_blank" class="text-[10px] uppercase tracking-wider text-neutral-400 hover:text-white transition">NPM Kaydı</a>
-                </div>
+                </article>
+
+                <!-- Kentsel Dönüşüm -->
+                <article class="project-card fade-up delay-2">
+                    <div class="project-image">
+                        <img src="assets/projects/kentsel.png" alt="Kentsel Dönüşüm web sitesi" loading="lazy">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center gap-3 mb-3">
+                            <img src="assets/projects/kentsel-logo.png" alt="Kentsel Dönüşüm" class="h-5 w-auto opacity-90">
+                        </div>
+                        <h3 class="text-lg font-medium mb-3">Kentsel Dönüşüm</h3>
+                        <p class="text-zinc-400 text-sm font-light leading-relaxed mb-4">
+                            Kentsel dönüşüm hukuk danışmanlığı için içerik yönetimli, modern kurumsal web platformu.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="tag">Next.js 15</span>
+                            <span class="tag">Prisma</span>
+                        </div>
+                        <a href="https://kentseldonusum.youlistaapp.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm text-zinc-300 hover:text-white transition">
+                            kentseldonusum.youlistaapp.com
+                            <i class="fas fa-arrow-right link-arrow text-xs opacity-60"></i>
+                        </a>
+
+                        <details class="detail-toggle">
+                            <summary>
+                                Proje detayları
+                                <i class="fas fa-chevron-down detail-chevron"></i>
+                            </summary>
+                            <dl class="detail-meta">
+                                <div>
+                                    <dt>Platform</dt>
+                                    <dd>Web + Admin panel</dd>
+                                </div>
+                                <div>
+                                    <dt>Sektör</dt>
+                                    <dd>Hukuk danışmanlığı</dd>
+                                </div>
+                                <div>
+                                    <dt>Durum</dt>
+                                    <dd>Canlı</dd>
+                                </div>
+                            </dl>
+                            <div class="detail-grid">
+                                <div class="detail-block">
+                                    <h4>Öne çıkan özellikler</h4>
+                                    <ul class="detail-list">
+                                        <li>Hizmetler, projeler, blog ve iletişim sayfaları</li>
+                                        <li>6306 sayılı Kanun odaklı içerik ve danışmanlık akışı</li>
+                                        <li>Randevu talebi ve mesaj yönetimi</li>
+                                        <li>Çok ofisli yapı ve kullanıcı bazlı bildirimler</li>
+                                        <li>Admin paneli: blog CMS, loglar, ayarlar</li>
+                                    </ul>
+                                </div>
+                                <div class="detail-block">
+                                    <h4>Teknik altyapı</h4>
+                                    <ul class="detail-list">
+                                        <li>Next.js 15 App Router, TypeScript</li>
+                                        <li>Prisma ORM + MySQL (Docker)</li>
+                                        <li>Radix UI, Tailwind CSS, animasyonlu bileşenler</li>
+                                        <li>Slug tabanlı dinamik sayfalar ve SEO uyumlu yapı</li>
+                                        <li>Rol bazlı admin erişimi ve audit logları</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </article>
+
+                <!-- Kiosk -->
+                <article class="project-card fade-up delay-3">
+                    <div class="project-image project-image--logo">
+                        <img src="assets/projects/kiosk-logo.png" alt="Kiosk platform logosu" loading="lazy">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium mb-3">Kiosk Platform</h3>
+                        <p class="text-zinc-400 text-sm font-light leading-relaxed mb-4">
+                            Tablet kiosk uygulaması, çok kiracılı admin paneli ve video yayın altyapısı. WebSocket ile anlık içerik senkronizasyonu ve tam ekran oynatma.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="tag">React Native</span>
+                            <span class="tag">Express</span>
+                            <span class="tag">WebSocket</span>
+                            <span class="tag">PostgreSQL</span>
+                        </div>
+                        <a href="https://kiosk.youlistaapp.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm text-zinc-300 hover:text-white transition">
+                            kiosk.youlistaapp.com
+                            <i class="fas fa-arrow-right link-arrow text-xs opacity-60"></i>
+                        </a>
+
+                        <details class="detail-toggle">
+                            <summary>
+                                Proje detayları
+                                <i class="fas fa-chevron-down detail-chevron"></i>
+                            </summary>
+                            <dl class="detail-meta">
+                                <div>
+                                    <dt>Platform</dt>
+                                    <dd>Tablet + Web admin + API</dd>
+                                </div>
+                                <div>
+                                    <dt>Mimari</dt>
+                                    <dd>Çok kiracılı SaaS</dd>
+                                </div>
+                                <div>
+                                    <dt>Durum</dt>
+                                    <dd>Canlı — aktif geliştirme</dd>
+                                </div>
+                            </dl>
+                            <div class="detail-grid">
+                                <div class="detail-block">
+                                    <h4>Öne çıkan özellikler</h4>
+                                    <ul class="detail-list">
+                                        <li>Yayın kodu ile tablet kurulumu ve tam ekran video oynatma</li>
+                                        <li>WebSocket ile milisaniyeler içinde uzaktan içerik güncelleme</li>
+                                        <li>Owner paneli: video, slot ve yayın yönetimi</li>
+                                        <li>PDF/görsel desteği, presence heartbeat ve operasyon logları</li>
+                                    </ul>
+                                </div>
+                                <div class="detail-block">
+                                    <h4>Teknik altyapı</h4>
+                                    <ul class="detail-list">
+                                        <li>React Native tablet uygulaması (Android / iOS)</li>
+                                        <li>Next.js admin paneli + Express API sunucusu</li>
+                                        <li>PostgreSQL, Prisma, JWT (httpOnly cookie)</li>
+                                        <li>Owner bazlı veri izolasyonu — her hesap yalnızca kendi verisini görür</li>
+                                        <li>WebSocket slot event kanalı — push tabanlı anlık senkronizasyon</li>
+                                        <li>Public slot API — mobil cihaz auth gerektirmez</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </article>
+
+                <!-- Cut-Opt -->
+                <article class="project-card fade-up delay-4">
+                    <div class="project-image project-image--tool">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-center px-6">
+                                <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl border border-white/10 bg-white/5 mb-3">
+                                    <i class="fas fa-cut text-xl text-emerald-400"></i>
+                                </div>
+                                <p class="text-xs font-mono text-zinc-500 uppercase tracking-widest">Optimizasyon</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium mb-3">Cut-Opt</h3>
+                        <p class="text-zinc-400 text-sm font-light leading-relaxed mb-5">
+                            Endüstriyel malzemeler için israfı minimize eden kesim optimizasyonu algoritması ve web arayüzü.
+                        </p>
+                        <a href="https://cut-opt.youlistaapp.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm text-zinc-300 hover:text-white transition">
+                            cut-opt.youlistaapp.com
+                            <i class="fas fa-arrow-right link-arrow text-xs opacity-60"></i>
+                        </a>
+
+                        <details class="detail-toggle">
+                            <summary>
+                                Proje detayları
+                                <i class="fas fa-chevron-down detail-chevron"></i>
+                            </summary>
+                            <dl class="detail-meta">
+                                <div>
+                                    <dt>Platform</dt>
+                                    <dd>Web uygulaması</dd>
+                                </div>
+                                <div>
+                                    <dt>Alan</dt>
+                                    <dd>Endüstriyel optimizasyon</dd>
+                                </div>
+                                <div>
+                                    <dt>Durum</dt>
+                                    <dd>Canlı</dd>
+                                </div>
+                            </dl>
+                            <div class="detail-grid">
+                                <div class="detail-block">
+                                    <h4>Öne çıkan özellikler</h4>
+                                    <ul class="detail-list">
+                                        <li>Malzeme kesim planlarında fire oranını minimize etme</li>
+                                        <li>Stok boyutları ve talep parçaları için optimizasyon</li>
+                                        <li>Görsel kesim diyagramları ve sonuç raporlama</li>
+                                        <li>Web tabanlı yönetim arayüzü — kurulum gerektirmez</li>
+                                    </ul>
+                                </div>
+                                <div class="detail-block">
+                                    <h4>Teknik altyapı</h4>
+                                    <ul class="detail-list">
+                                        <li>Özel kesim optimizasyon algoritması</li>
+                                        <li>İnteraktif web arayüzü ve anlık hesaplama</li>
+                                        <li>Endüstriyel atölye ve üretim senaryolarına uygun akış</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </article>
+
+                <!-- ByteSync Editor -->
+                <article class="project-card fade-up delay-5">
+                    <div class="project-image project-image--tool">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-center px-6">
+                                <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl border border-white/10 bg-white/5 mb-3">
+                                    <i class="fas fa-code text-xl text-indigo-400"></i>
+                                </div>
+                                <p class="text-xs font-mono text-zinc-500 uppercase tracking-widest">Byte Editor</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium mb-3">ByteSync Editor</h3>
+                        <p class="text-zinc-400 text-sm font-light leading-relaxed mb-5">
+                            ASCII, Hex, ondalık ve ikilik formatlar için gerçek zamanlı senkronize byte tabanlı veri editörü.
+                        </p>
+                        <a href="https://bseditor.youlistaapp.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm text-zinc-300 hover:text-white transition">
+                            bseditor.youlistaapp.com
+                            <i class="fas fa-arrow-right link-arrow text-xs opacity-60"></i>
+                        </a>
+
+                        <details class="detail-toggle">
+                            <summary>
+                                Proje detayları
+                                <i class="fas fa-chevron-down detail-chevron"></i>
+                            </summary>
+                            <dl class="detail-meta">
+                                <div>
+                                    <dt>Platform</dt>
+                                    <dd>Web + Electron (masaüstü)</dd>
+                                </div>
+                                <div>
+                                    <dt>Alan</dt>
+                                    <dd>Geliştirici aracı</dd>
+                                </div>
+                                <div>
+                                    <dt>Durum</dt>
+                                    <dd>Canlı — v1.41+</dd>
+                                </div>
+                            </dl>
+                            <div class="detail-grid">
+                                <div class="detail-block">
+                                    <h4>Öne çıkan özellikler</h4>
+                                    <ul class="detail-list">
+                                        <li>ASCII, Hex, ondalık ve ikilik görünümlerde eşzamanlı düzenleme</li>
+                                        <li>4-in-1 mod: tüm formatlar tek ekranda</li>
+                                        <li>Entropi analizi, istatistikler ve desen tespiti</li>
+                                        <li>Akıllı kopyala/yapıştır ve klavye kısayolları</li>
+                                        <li>Açık/koyu tema, PWA desteği ve offline çalışma</li>
+                                    </ul>
+                                </div>
+                                <div class="detail-block">
+                                    <h4>Teknik altyapı</h4>
+                                    <ul class="detail-list">
+                                        <li>Vanilla JS — hafif, bağımlılıksız web çekirdeği</li>
+                                        <li>Electron ile Windows, macOS ve Linux desteği</li>
+                                        <li>16×16 byte grid, gerçek zamanlı senkronizasyon motoru</li>
+                                        <li>PWA manifest — tarayıcıdan native kurulum</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </article>
 
             </div>
         </section>
 
-        <!-- Alt Bilgi -->
-        <footer class="mt-40 pt-12 border-t border-neutral-900 flex flex-col md:flex-row justify-between items-center gap-6 text-neutral-600">
-            <div class="text-xs font-light">
-                Built with precision &mdash; 2025
+        <section id="npm" class="mt-28">
+            <h2 class="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-2">Açık Kaynak Kitaplıklar</h2>
+            <p class="text-zinc-600 text-sm mb-10">NPM'de yayınlanan geliştirici araçları</p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="lib-card fade-up delay-1 p-6">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-sm font-mono text-zinc-200">listener-manager-pro</h3>
+                        <span class="text-[10px] bg-white/5 text-zinc-500 px-2 py-0.5 rounded-full border border-white/10">v1.0.2</span>
+                    </div>
+                    <p class="text-sm text-zinc-500 font-light leading-relaxed mb-6">
+                        Büyük ölçekli JS uygulamalarında event listener'ların yaşam döngüsünü yöneten bellek dostu bir araç.
+                    </p>
+                    <a href="https://www.npmjs.com/package/listener-manager-pro" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-zinc-400 hover:text-white transition">
+                        NPM Kaydı <i class="fas fa-arrow-right link-arrow text-[10px]"></i>
+                    </a>
+                </div>
+
+                <div class="lib-card fade-up delay-2 p-6">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-sm font-mono text-zinc-200">async-modal</h3>
+                        <span class="text-[10px] bg-white/5 text-zinc-500 px-2 py-0.5 rounded-full border border-white/10">v1.0.2</span>
+                    </div>
+                    <p class="text-sm text-zinc-500 font-light leading-relaxed mb-6">
+                        UI modal akışlarını Promise yapısı ile basitleştiren, tamamen asenkron çalışma prensibine sahip paket.
+                    </p>
+                    <a href="https://www.npmjs.com/package/async-modal" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-zinc-400 hover:text-white transition">
+                        NPM Kaydı <i class="fas fa-arrow-right link-arrow text-[10px]"></i>
+                    </a>
+                </div>
+
+                <div class="lib-card fade-up delay-3 p-6">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-sm font-mono text-zinc-200">async-map-modal</h3>
+                        <span class="text-[10px] bg-white/5 text-zinc-500 px-2 py-0.5 rounded-full border border-white/10">v1.0.3</span>
+                    </div>
+                    <p class="text-sm text-zinc-500 font-light leading-relaxed mb-6">
+                        Leaflet tabanlı harita modalı: tekli veya çoklu koordinat seçimi, çoklu dil ve tema desteği — async-modal tarzı Promise API.
+                    </p>
+                    <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+                        <a href="https://www.npmjs.com/package/async-map-modal" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-zinc-400 hover:text-white transition">
+                            NPM Kaydı <i class="fas fa-arrow-right link-arrow text-[10px]"></i>
+                        </a>
+                        <a href="https://kaangrbz.github.io/async-map-modal/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-zinc-500 hover:text-white transition">
+                            Demo <i class="fas fa-arrow-right link-arrow text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="flex gap-8 text-xs">
-                <a href="#" class="hover:text-white transition">GitHub</a>
-                <a href="#" class="hover:text-white transition">LinkedIn</a>
+        </section>
+
+        <footer class="mt-32 pt-10 border-t border-white/8 flex flex-col md:flex-row justify-between items-center gap-6 text-zinc-500">
+            <div class="text-sm font-light">
+                Built with precision &mdash; 2026
+            </div>
+            <div class="flex gap-8 text-sm">
+                <a href="https://github.com/kaangrbz" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">GitHub</a>
                 <a href="mailto:contact@roulista.com" class="hover:text-white transition">Email</a>
             </div>
         </footer>
