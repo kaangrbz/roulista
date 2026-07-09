@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulista | Yazılım Geliştirici</title>
-    <meta name="description" content="Sistem mimarisi, optimizasyon algoritmaları ve geliştirici araçları. Yolista, ElekTrink, Kentsel Dönüşüm, Kiosk ve daha fazlası.">
+    <title>Roulista | FullStack Developer</title>
+    <meta name="description" content="Mobil, web ve masaüstü uygulamalar ile geliştirici araçları. Yolista, ElekTrink, Kentsel Dönüşüm, Kiosk ve daha fazlası.">
+    <meta name="theme-color" content="#050505">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -56,6 +60,18 @@
             border-bottom: 1px solid var(--border);
         }
 
+        .nav-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.625rem;
+        }
+
+        .nav-brand img {
+            width: 1.75rem;
+            height: 1.75rem;
+            flex-shrink: 0;
+        }
+
         .project-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -75,10 +91,6 @@
             border-color: rgba(255, 255, 255, 0.14);
         }
 
-        .project-card:hover .project-image img {
-            transform: scale(1.02);
-        }
-
         .project-image {
             position: relative;
             overflow: hidden;
@@ -86,17 +98,75 @@
             background: #0a0a0a;
         }
 
+        .project-image--preview {
+            display: block;
+            width: 100%;
+            padding: 0;
+            border: none;
+            cursor: zoom-in;
+            text-align: inherit;
+            font: inherit;
+            color: inherit;
+        }
+
+        .project-image--preview:focus-visible {
+            outline: 2px solid rgba(255, 255, 255, 0.35);
+            outline-offset: -2px;
+        }
+
+        .project-image-zoom {
+            position: absolute;
+            right: 0.75rem;
+            bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(5, 5, 5, 0.72);
+            backdrop-filter: blur(8px);
+            color: #d4d4d8;
+            font-size: 0.75rem;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            pointer-events: none;
+        }
+
+        .project-image--preview:hover .project-image-zoom,
+        .project-image--preview:focus-visible .project-image-zoom {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-image picture,
+        .project-image picture img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .project-image img[data-lazy] {
+            opacity: 0;
+        }
+
+        .project-image img.is-loaded {
+            opacity: 1;
+            transition: opacity 0.45s ease;
+        }
+
         .project-image .absolute {
             position: absolute;
             inset: 0;
         }
 
-        .project-image img {
+        .project-image--preview img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
             object-position: center;
-            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .project-image--logo {
@@ -265,6 +335,109 @@
             font-size: 0.8125rem;
             color: #d4d4d8;
         }
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .lightbox.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(12px);
+        }
+
+        .lightbox-panel {
+            position: relative;
+            z-index: 1;
+            width: min(100%, 72rem);
+            max-height: calc(100vh - 3rem);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            transform: scale(0.96);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .lightbox.is-open .lightbox-panel {
+            transform: scale(1);
+        }
+
+        .lightbox-figure {
+            margin: 0;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #0a0a0a;
+            overflow: hidden;
+            box-shadow: 0 32px 64px -16px rgba(0, 0, 0, 0.65);
+        }
+
+        .lightbox-figure img {
+            display: block;
+            width: 100%;
+            max-height: calc(100vh - 7rem);
+            object-fit: contain;
+            background: #0a0a0a;
+        }
+
+        .lightbox-figure img.is-loading {
+            min-height: 12rem;
+            opacity: 0.35;
+        }
+
+        .lightbox-caption {
+            text-align: center;
+            font-size: 0.8125rem;
+            color: #a1a1aa;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -0.25rem;
+            right: 0;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #e4e4e7;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        @media (max-width: 640px) {
+            .lightbox {
+                padding: 1rem;
+            }
+
+            .lightbox-close {
+                top: 0.25rem;
+                right: 0.25rem;
+            }
+        }
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
@@ -274,7 +447,10 @@
 
     <nav class="glass-nav sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-base font-medium tracking-tight hover:opacity-70 transition">Roulista</a>
+            <a href="#" class="nav-brand text-base font-medium tracking-tight hover:opacity-70 transition">
+                <img src="/favicon.svg" alt="" width="28" height="28" aria-hidden="true">
+                Roulista
+            </a>
             <div class="flex gap-6 sm:gap-8 text-sm text-zinc-400">
                 <a href="#projects" class="hover:text-white transition">Projeler</a>
                 <a href="#npm" class="hover:text-white transition">Kitaplıklar</a>
@@ -286,10 +462,10 @@
     <header class="relative z-10 max-w-6xl mx-auto px-6 pt-20 pb-16 sm:pt-28 sm:pb-20">
         <p class="fade-up text-xs uppercase tracking-[0.25em] text-zinc-500 mb-6">Portfolyo</p>
         <h1 class="fade-up delay-1 text-4xl sm:text-5xl lg:text-6xl font-medium leading-[1.1] tracking-tight max-w-3xl mb-6">
-            Yazılım geliştirici.
+            FullStack Developer.
         </h1>
         <p class="fade-up delay-2 text-zinc-400 text-lg sm:text-xl font-light leading-relaxed max-w-2xl">
-            Sistem mimarisi, optimizasyon algoritmaları ve geliştirici araçları üzerine odaklanıyorum. Mobil uygulamalardan endüstriyel araçlara uzanan projeler geliştiriyorum.
+            Mobil, web ve masaüstü uygulamalar ile geliştirici araçları üretiyorum. Sistem mimarisi ve optimizasyon tarafında da çalışıyorum.
         </p>
     </header>
 
@@ -307,12 +483,16 @@
 
                 <!-- Yolista -->
                 <article class="project-card fade-up delay-1">
-                    <div class="project-image">
-                        <img src="assets/projects/banners/yolista-banner.png" alt="Yolista mobil uygulama ekran görüntüsü" loading="lazy">
-                    </div>
+                    <button type="button" class="project-image project-image--preview" data-full="assets/projects/banners/yolista-banner.webp" data-full-fallback="assets/projects/banners/yolista-banner.png" aria-label="Yolista ekran görüntüsünü büyüt">
+                        <picture>
+                            <source srcset="assets/projects/banners/yolista-banner-thumb.webp" type="image/webp">
+                            <img src="assets/projects/banners/yolista-banner.png" alt="Yolista mobil uygulama ekran görüntüsü" loading="eager" fetchpriority="high" decoding="async" width="1376" height="768" data-lazy>
+                        </picture>
+                        <span class="project-image-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                    </button>
                     <div class="p-6">
                         <div class="flex flex-wrap items-center gap-3 mb-3">
-                            <img src="assets/projects/yolista-logo.png" alt="Yolista" class="h-6 w-auto opacity-90">
+                            <img src="assets/projects/yolista-logo.png" alt="Yolista" class="h-6 w-auto opacity-90" loading="lazy" decoding="async">
                         </div>
                         <h3 class="text-lg font-medium mb-3">Yolista — Rota Paylaşım & Keşfet</h3>
                         <p class="text-zinc-400 text-sm font-light leading-relaxed mb-4">
@@ -376,9 +556,13 @@
 
                 <!-- ElekTrink -->
                 <article class="project-card fade-up delay-2">
-                    <div class="project-image">
-                        <img src="assets/projects/banners/elektrink-banner.png" alt="ElekTrink mobil uygulama ekran görüntüsü" loading="lazy">
-                    </div>
+                    <button type="button" class="project-image project-image--preview" data-full="assets/projects/banners/elektrink-banner.webp" data-full-fallback="assets/projects/banners/elektrink-banner.png" aria-label="ElekTrink ekran görüntüsünü büyüt">
+                        <picture>
+                            <source srcset="assets/projects/banners/elektrink-banner-thumb.webp" type="image/webp">
+                            <img src="assets/projects/banners/elektrink-banner.png" alt="ElekTrink mobil uygulama ekran görüntüsü" loading="lazy" decoding="async" width="1376" height="768" data-lazy>
+                        </picture>
+                        <span class="project-image-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                    </button>
                     <div class="p-6">
                         <h3 class="text-lg font-medium mb-3">ElekTrink — Elektrikli Araç Şarj Rehberi</h3>
                         <p class="text-zinc-400 text-sm font-light leading-relaxed mb-4">
@@ -445,12 +629,16 @@
 
                 <!-- Kentsel Dönüşüm -->
                 <article class="project-card fade-up delay-3">
-                    <div class="project-image">
-                        <img src="assets/projects/banners/kentsel-donusum-banner.png" alt="Kentsel Dönüşüm web sitesi" loading="lazy">
-                    </div>
+                    <button type="button" class="project-image project-image--preview" data-full="assets/projects/banners/kentsel-donusum-banner.webp" data-full-fallback="assets/projects/banners/kentsel-donusum-banner.png" aria-label="Kentsel Dönüşüm ekran görüntüsünü büyüt">
+                        <picture>
+                            <source srcset="assets/projects/banners/kentsel-donusum-banner-thumb.webp" type="image/webp">
+                            <img src="assets/projects/banners/kentsel-donusum-banner.png" alt="Kentsel Dönüşüm web sitesi" loading="lazy" decoding="async" width="1376" height="768" data-lazy>
+                        </picture>
+                        <span class="project-image-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                    </button>
                     <div class="p-6">
                         <div class="flex flex-wrap items-center gap-3 mb-3">
-                            <img src="assets/projects/kentsel-logo.png" alt="Kentsel Dönüşüm" class="h-5 w-auto opacity-90">
+                            <img src="assets/projects/kentsel-logo.png" alt="Kentsel Dönüşüm" class="h-5 w-auto opacity-90" loading="lazy" decoding="async">
                         </div>
                         <h3 class="text-lg font-medium mb-3">Kentsel Dönüşüm — Hukuk Danışmanlığı Platformu</h3>
                         <p class="text-zinc-400 text-sm font-light leading-relaxed mb-4">
@@ -512,9 +700,13 @@
 
                 <!-- Kiosk -->
                 <article class="project-card fade-up delay-4">
-                    <div class="project-image">
-                        <img src="assets/projects/banners/kiosk-one-banner.png" alt="Kiosk platform ekran görüntüsü" loading="lazy">
-                    </div>
+                    <button type="button" class="project-image project-image--preview" data-full="assets/projects/banners/kiosk-one-banner.webp" data-full-fallback="assets/projects/banners/kiosk-one-banner.png" aria-label="Kiosk ekran görüntüsünü büyüt">
+                        <picture>
+                            <source srcset="assets/projects/banners/kiosk-one-banner-thumb.webp" type="image/webp">
+                            <img src="assets/projects/banners/kiosk-one-banner.png" alt="Kiosk platform ekran görüntüsü" loading="lazy" decoding="async" width="1376" height="768" data-lazy>
+                        </picture>
+                        <span class="project-image-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                    </button>
                     <div class="p-6">
                         <h3 class="text-lg font-medium mb-3">Kiosk — Dijital Tabela Platformu</h3>
                         <p class="text-zinc-400 text-sm font-light leading-relaxed mb-4">
@@ -642,9 +834,13 @@
 
                 <!-- ByteSync Editor -->
                 <article class="project-card fade-up delay-6">
-                    <div class="project-image">
-                        <img src="assets/projects/banners/bseditor-banner.png" alt="ByteSync Editor ekran görüntüsü" loading="lazy">
-                    </div>
+                    <button type="button" class="project-image project-image--preview" data-full="assets/projects/banners/bseditor-banner.webp" data-full-fallback="assets/projects/banners/bseditor-banner.png" aria-label="ByteSync Editor ekran görüntüsünü büyüt">
+                        <picture>
+                            <source srcset="assets/projects/banners/bseditor-banner-thumb.webp" type="image/webp">
+                            <img src="assets/projects/banners/bseditor-banner.png" alt="ByteSync Editor ekran görüntüsü" loading="lazy" decoding="async" width="1376" height="768" data-lazy>
+                        </picture>
+                        <span class="project-image-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                    </button>
                     <div class="p-6">
                         <h3 class="text-lg font-medium mb-3">ByteSync — Byte Veri Editörü</h3>
                         <p class="text-zinc-400 text-sm font-light leading-relaxed mb-5">
@@ -701,9 +897,13 @@
 
                 <!-- Wacon -->
                 <article class="project-card fade-up delay-7">
-                    <div class="project-image">
-                        <img src="assets/projects/banners/wacon-tarimsal-banner.png" alt="Wacon akıllı sulama sistemi ekran görüntüsü" loading="lazy">
-                    </div>
+                    <button type="button" class="project-image project-image--preview" data-full="assets/projects/banners/wacon-tarimsal-banner.webp" data-full-fallback="assets/projects/banners/wacon-tarimsal-banner.png" aria-label="Wacon ekran görüntüsünü büyüt">
+                        <picture>
+                            <source srcset="assets/projects/banners/wacon-tarimsal-banner-thumb.webp" type="image/webp">
+                            <img src="assets/projects/banners/wacon-tarimsal-banner.png" alt="Wacon akıllı sulama sistemi ekran görüntüsü" loading="lazy" decoding="async" width="1376" height="768" data-lazy>
+                        </picture>
+                        <span class="project-image-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                    </button>
                     <div class="p-6">
                         <h3 class="text-lg font-medium mb-3">Wacon — Akıllı Sulama Sistemleri</h3>
                         <p class="text-zinc-400 text-sm font-light leading-relaxed mb-4">
@@ -815,6 +1015,100 @@
             </div>
         </footer>
     </main>
+
+    <div id="lightbox" class="lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption">
+        <div class="lightbox-backdrop" data-lightbox-close></div>
+        <div class="lightbox-panel">
+            <button type="button" class="lightbox-close" data-lightbox-close aria-label="Kapat">
+                <i class="fas fa-times"></i>
+            </button>
+            <figure class="lightbox-figure">
+                <img id="lightbox-image" src="" alt="">
+            </figure>
+            <p id="lightbox-caption" class="lightbox-caption"></p>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.project-image img[data-lazy]').forEach((img) => {
+            const markLoaded = () => img.classList.add('is-loaded');
+            if (img.complete) {
+                markLoaded();
+            } else {
+                img.addEventListener('load', markLoaded, { once: true });
+                img.addEventListener('error', markLoaded, { once: true });
+            }
+        });
+
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        let lastFocus = null;
+
+        const supportsWebp = () => {
+            const canvas = document.createElement('canvas');
+            return canvas.toDataURL('image/webp').startsWith('data:image/webp');
+        };
+
+        const webpOk = supportsWebp();
+
+        const closeLightbox = () => {
+            lightbox.classList.remove('is-open');
+            lightbox.setAttribute('aria-hidden', 'true');
+            lightbox.hidden = true;
+            document.body.style.overflow = '';
+            lightboxImage.removeAttribute('src');
+            lightboxImage.alt = '';
+            lightboxCaption.textContent = '';
+            if (lastFocus) {
+                lastFocus.focus();
+                lastFocus = null;
+            }
+        };
+
+        const openLightbox = (trigger) => {
+            const preview = trigger.querySelector('img');
+            const fullSrc = webpOk ? trigger.dataset.full : trigger.dataset.fullFallback;
+            if (!preview || !fullSrc) return;
+
+            lastFocus = trigger;
+            lightboxImage.classList.add('is-loading');
+            lightboxImage.src = fullSrc;
+            lightboxImage.alt = preview.alt;
+            lightboxCaption.textContent = preview.alt;
+
+            lightbox.hidden = false;
+            requestAnimationFrame(() => {
+                lightbox.classList.add('is-open');
+                lightbox.setAttribute('aria-hidden', 'false');
+            });
+            document.body.style.overflow = 'hidden';
+            lightbox.querySelector('.lightbox-close').focus();
+
+            lightboxImage.onload = () => lightboxImage.classList.remove('is-loading');
+            lightboxImage.onerror = () => {
+                if (fullSrc !== trigger.dataset.fullFallback) {
+                    lightboxImage.src = trigger.dataset.fullFallback;
+                    return;
+                }
+                lightboxImage.classList.remove('is-loading');
+            };
+        };
+
+        document.querySelectorAll('.project-image--preview').forEach((trigger) => {
+            trigger.addEventListener('click', () => openLightbox(trigger));
+        });
+
+        lightbox.querySelectorAll('[data-lightbox-close]').forEach((el) => {
+            el.addEventListener('click', closeLightbox);
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !lightbox.hidden) {
+                closeLightbox();
+            }
+        });
+    </script>
 
 </body>
 </html>
