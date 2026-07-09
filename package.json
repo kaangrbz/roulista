@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "docker:prod:down": "docker compose down",
     "docker:prod:build": "docker compose build --no-cache",
-    "docker:prod:up": "docker compose up -d --build",
+    "docker:prod:up": "docker compose build --no-cache && docker compose up -d",
+    "docker:prod:deploy": "yarn docker:prod:down && yarn docker:prod:up",
     "docker:prod:logs": "docker compose logs -f"
   },
   "devDependencies": {
