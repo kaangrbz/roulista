@@ -6,6 +6,7 @@ COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 COPY . .
+RUN apk add --no-cache libwebp-tools
 RUN yarn build
 
 FROM nginx:alpine

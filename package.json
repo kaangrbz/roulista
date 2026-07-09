@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "images": "bash scripts/optimize-images.sh",
+    "images": "sh scripts/optimize-images.sh",
     "build": "yarn images && vite build",
     "preview": "vite preview",
     "docker:prod:down": "docker compose down",
