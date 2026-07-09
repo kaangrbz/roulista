@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roulista | Yazılım Geliştirici</title>
-    <meta name="description" content="Sistem mimarisi, optimizasyon algoritmaları ve geliştirici araçları. Yolista, Kentsel Dönüşüm, Kiosk ve daha fazlası.">
+    <meta name="description" content="Sistem mimarisi, optimizasyon algoritmaları ve geliştirici araçları. Yolista, ElekTrink, Kentsel Dönüşüm, Kiosk ve daha fazlası.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -76,14 +76,14 @@
         }
 
         .project-card:hover .project-image img {
-            transform: scale(1.04);
+            transform: scale(1.02);
         }
 
         .project-image {
             position: relative;
             overflow: hidden;
-            aspect-ratio: 16 / 10;
-            background: #111;
+            aspect-ratio: 1376 / 768;
+            background: #0a0a0a;
         }
 
         .project-image .absolute {
@@ -94,8 +94,8 @@
         .project-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            object-position: top center;
+            object-fit: contain;
+            object-position: center;
             transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
@@ -167,6 +167,7 @@
         .delay-4 { animation-delay: 0.32s; }
         .delay-5 { animation-delay: 0.4s; }
         .delay-6 { animation-delay: 0.48s; }
+        .delay-7 { animation-delay: 0.56s; }
 
         .detail-toggle {
             border-top: 1px solid var(--border);
@@ -302,22 +303,22 @@
                 </div>
             </div>
 
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
                 <!-- Yolista -->
-                <article class="project-card fade-up delay-1 sm:col-span-2 lg:col-span-2">
+                <article class="project-card fade-up delay-1">
                     <div class="project-image">
-                        <img src="assets/projects/yolista.png" alt="Yolista mobil uygulama ekran görüntüsü" loading="lazy">
+                        <img src="assets/projects/banners/yolista-banner.png" alt="Yolista mobil uygulama ekran görüntüsü" loading="lazy">
                     </div>
-                    <div class="p-6 sm:p-7">
+                    <div class="p-6">
                         <div class="flex flex-wrap items-center gap-3 mb-3">
                             <img src="assets/projects/yolista-logo.png" alt="Yolista" class="h-6 w-auto opacity-90">
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-medium mb-3">Yolista</h3>
-                        <p class="text-zinc-400 font-light leading-relaxed mb-5 max-w-2xl">
+                        <h3 class="text-lg font-medium mb-3">Yolista — Rota Paylaşım & Keşfet</h3>
+                        <p class="text-zinc-400 text-sm font-light leading-relaxed mb-4">
                             Seyahat rotalarını fotoğraflarla paylaş, şehir içi, doğa ve tarihi rotaları keşfet. Çok duraklı rota paylaşımı, sosyal feed ve web köprüsü ile tam ekosistem.
                         </p>
-                        <div class="flex flex-wrap gap-2 mb-6">
+                        <div class="flex flex-wrap gap-2 mb-5">
                             <span class="tag">React Native</span>
                             <span class="tag">Supabase</span>
                             <span class="tag">Next.js</span>
@@ -373,16 +374,85 @@
                     </div>
                 </article>
 
-                <!-- Kentsel Dönüşüm -->
+                <!-- ElekTrink -->
                 <article class="project-card fade-up delay-2">
                     <div class="project-image">
-                        <img src="assets/projects/kentsel.png" alt="Kentsel Dönüşüm web sitesi" loading="lazy">
+                        <img src="assets/projects/banners/elektrink-banner.png" alt="ElekTrink mobil uygulama ekran görüntüsü" loading="lazy">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium mb-3">ElekTrink — Elektrikli Araç Şarj Rehberi</h3>
+                        <p class="text-zinc-400 text-sm font-light leading-relaxed mb-4">
+                            Elektrikli araç şarj rehberi app demosu. Harita, rota planlama, QR ile şarj ve oturum takibi özelliklerini kapsayan bir konsept çalışması — aktif bir ürün değil.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="tag">App demo</span>
+                            <span class="tag">React Native</span>
+                            <span class="tag">NestJS</span>
+                            <span class="tag">Next.js</span>
+                            <span class="tag">PostGIS</span>
+                        </div>
+                        <a href="https://elektrink.youlistaapp.com/tr" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm text-zinc-300 hover:text-white transition group">
+                            elektrink.youlistaapp.com
+                            <i class="fas fa-arrow-right link-arrow text-xs opacity-60"></i>
+                        </a>
+
+                        <details class="detail-toggle">
+                            <summary>
+                                Proje detayları
+                                <i class="fas fa-chevron-down detail-chevron"></i>
+                            </summary>
+                            <dl class="detail-meta">
+                                <div>
+                                    <dt>Platform</dt>
+                                    <dd>iOS & Android + Web</dd>
+                                </div>
+                                <div>
+                                    <dt>Rol</dt>
+                                    <dd>Tam yığın geliştirme</dd>
+                                </div>
+                                <div>
+                                    <dt>Durum</dt>
+                                    <dd>App demo</dd>
+                                </div>
+                            </dl>
+                            <div class="detail-grid">
+                                <div class="detail-block">
+                                    <h4>Öne çıkan özellikler</h4>
+                                    <ul class="detail-list">
+                                        <li>Harita — yakındaki şarj istasyonları; güç, operatör ve müsaitlik filtreleri</li>
+                                        <li>Rota planlama — başlangıç/varış noktası, şarj durumu ve durak önerileri</li>
+                                        <li>QR ile şarj — operatör seçimi ve istasyondaki QR kodu ile oturum başlatma</li>
+                                        <li>Şarj oturumu — canlı enerji, süre ve maliyet takibi</li>
+                                        <li>Çok dilli tanıtım sitesi ve demo veri seti</li>
+                                        <li>Favoriler, araç profili ve push bildirimleri</li>
+                                    </ul>
+                                </div>
+                                <div class="detail-block">
+                                    <h4>Teknik altyapı</h4>
+                                    <ul class="detail-list">
+                                        <li>Expo SDK 56 + React Native 0.85, TypeScript, Zustand</li>
+                                        <li>NestJS 11, TypeORM, PostgreSQL + PostGIS</li>
+                                        <li>Socket.IO ile gerçek zamanlı oturum ve istasyon güncellemeleri</li>
+                                        <li>Open Charge Map entegrasyonu — Türkiye istasyon verisi</li>
+                                        <li>Next.js 16 tanıtım sitesi — next-intl (5 dil), Framer Motion</li>
+                                        <li>JWT auth, Expo push bildirimleri, Swagger API dokümantasyonu</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </article>
+
+                <!-- Kentsel Dönüşüm -->
+                <article class="project-card fade-up delay-3">
+                    <div class="project-image">
+                        <img src="assets/projects/banners/kentsel-donusum-banner.png" alt="Kentsel Dönüşüm web sitesi" loading="lazy">
                     </div>
                     <div class="p-6">
                         <div class="flex flex-wrap items-center gap-3 mb-3">
                             <img src="assets/projects/kentsel-logo.png" alt="Kentsel Dönüşüm" class="h-5 w-auto opacity-90">
                         </div>
-                        <h3 class="text-lg font-medium mb-3">Kentsel Dönüşüm</h3>
+                        <h3 class="text-lg font-medium mb-3">Kentsel Dönüşüm — Hukuk Danışmanlığı Platformu</h3>
                         <p class="text-zinc-400 text-sm font-light leading-relaxed mb-4">
                             Kentsel dönüşüm hukuk danışmanlığı için içerik yönetimli, modern kurumsal web platformu.
                         </p>
@@ -441,12 +511,12 @@
                 </article>
 
                 <!-- Kiosk -->
-                <article class="project-card fade-up delay-3">
-                    <div class="project-image project-image--logo">
-                        <img src="assets/projects/kiosk-logo.png" alt="Kiosk platform logosu" loading="lazy">
+                <article class="project-card fade-up delay-4">
+                    <div class="project-image">
+                        <img src="assets/projects/banners/kiosk-one-banner.png" alt="Kiosk platform ekran görüntüsü" loading="lazy">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-lg font-medium mb-3">Kiosk Platform</h3>
+                        <h3 class="text-lg font-medium mb-3">Kiosk — Dijital Tabela Platformu</h3>
                         <p class="text-zinc-400 text-sm font-light leading-relaxed mb-4">
                             Tablet kiosk uygulaması, çok kiracılı admin paneli ve video yayın altyapısı. WebSocket ile anlık içerik senkronizasyonu ve tam ekran oynatma.
                         </p>
@@ -507,7 +577,7 @@
                 </article>
 
                 <!-- Cut-Opt -->
-                <article class="project-card fade-up delay-4">
+                <article class="project-card fade-up delay-5">
                     <div class="project-image project-image--tool">
                         <div class="absolute inset-0 flex items-center justify-center">
                             <div class="text-center px-6">
@@ -519,7 +589,7 @@
                         </div>
                     </div>
                     <div class="p-6">
-                        <h3 class="text-lg font-medium mb-3">Cut-Opt</h3>
+                        <h3 class="text-lg font-medium mb-3">Cut-Opt — Kesim Optimizasyon Aracı</h3>
                         <p class="text-zinc-400 text-sm font-light leading-relaxed mb-5">
                             Endüstriyel malzemeler için israfı minimize eden kesim optimizasyonu algoritması ve web arayüzü.
                         </p>
@@ -571,19 +641,12 @@
                 </article>
 
                 <!-- ByteSync Editor -->
-                <article class="project-card fade-up delay-5">
-                    <div class="project-image project-image--tool">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="text-center px-6">
-                                <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl border border-white/10 bg-white/5 mb-3">
-                                    <i class="fas fa-code text-xl text-indigo-400"></i>
-                                </div>
-                                <p class="text-xs font-mono text-zinc-500 uppercase tracking-widest">Byte Editor</p>
-                            </div>
-                        </div>
+                <article class="project-card fade-up delay-6">
+                    <div class="project-image">
+                        <img src="assets/projects/banners/bseditor-banner.png" alt="ByteSync Editor ekran görüntüsü" loading="lazy">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-lg font-medium mb-3">ByteSync Editor</h3>
+                        <h3 class="text-lg font-medium mb-3">ByteSync — Byte Veri Editörü</h3>
                         <p class="text-zinc-400 text-sm font-light leading-relaxed mb-5">
                             ASCII, Hex, ondalık ve ikilik formatlar için gerçek zamanlı senkronize byte tabanlı veri editörü.
                         </p>
@@ -629,6 +692,58 @@
                                         <li>Electron ile Windows, macOS ve Linux desteği</li>
                                         <li>16×16 byte grid, gerçek zamanlı senkronizasyon motoru</li>
                                         <li>PWA manifest — tarayıcıdan native kurulum</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </article>
+
+                <!-- Wacon -->
+                <article class="project-card fade-up delay-7">
+                    <div class="project-image">
+                        <img src="assets/projects/banners/wacon-tarimsal-banner.png" alt="Wacon akıllı sulama sistemi ekran görüntüsü" loading="lazy">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium mb-3">Wacon — Akıllı Sulama Sistemleri</h3>
+                        <p class="text-zinc-400 text-sm font-light leading-relaxed mb-4">
+                            Akıllı sulama sistemleri için geliştirilmiş kontrol platformu. Tarla ve bahçelerdeki sulama ekipmanlarını web ve masaüstü uygulamasından tek yerden izleyip yönetmenizi sağlar.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="tag">Web</span>
+                            <span class="tag">Electron</span>
+                        </div>
+
+                        <details class="detail-toggle">
+                            <summary>
+                                Proje detayları
+                                <i class="fas fa-chevron-down detail-chevron"></i>
+                            </summary>
+                            <dl class="detail-meta">
+                                <div>
+                                    <dt>Platform</dt>
+                                    <dd>Web + Masaüstü</dd>
+                                </div>
+                                <div>
+                                    <dt>Alan</dt>
+                                    <dd>Tarımsal sulama / IoT</dd>
+                                </div>
+                            </dl>
+                            <div class="detail-grid">
+                                <div class="detail-block">
+                                    <h4>Ne sunuyor?</h4>
+                                    <ul class="detail-list">
+                                        <li>Gateway ve saha cihazlarını merkezi panelden yönetme</li>
+                                        <li>Grup bazlı sulama kontrolü</li>
+                                        <li>Harita üzerinden cihaz konumlarını görme</li>
+                                        <li>Gerçek zamanlı durum izleme</li>
+                                    </ul>
+                                </div>
+                                <div class="detail-block">
+                                    <h4>Proje hakkında</h4>
+                                    <ul class="detail-list">
+                                        <li>Modern tarımsal sulama altyapısını tek platformdan yönetmek için tasarlandı</li>
+                                        <li>Uzaktan erişim için web paneli, saha kullanımı için masaüstü uygulaması</li>
                                     </ul>
                                 </div>
                             </div>
