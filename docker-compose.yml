@@ -1,8 +1,8 @@
-name: roulista
+name: portfolio
 
 services:
   web:
-    container_name: roulista
+    container_name: portfolio
     build:
       context: .
       dockerfile: Dockerfile
