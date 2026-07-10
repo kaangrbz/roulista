@@ -9,9 +9,10 @@
     "build": "yarn images && vite build",
     "preview": "vite preview",
     "docker:prod:down": "docker compose down",
+    "docker:prod:cleanup": "docker rm -f roulista portfolio 2>/dev/null || true",
     "docker:prod:build": "docker compose build --no-cache",
     "docker:prod:up": "docker compose build --no-cache && docker compose up -d",
-    "docker:prod:deploy": "yarn docker:prod:down && yarn docker:prod:up",
+    "docker:prod:deploy": "yarn docker:prod:down && yarn docker:prod:cleanup && yarn docker:prod:up",
     "docker:prod:logs": "docker compose logs -f"
   },
   "devDependencies": {
